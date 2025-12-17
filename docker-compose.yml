@@ -1,0 +1,15 @@
+networks:
+  onlix:
+    external: true
+
+services:
+  catalog-service:
+    build: .
+    image: catalog-service:dev
+    container_name: onlix-catalog-service
+    env_file:
+      - ./dev.env
+    ports:
+      - "8082:8080"
+    networks: 
+      - onlix    

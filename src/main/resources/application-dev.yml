@@ -1,0 +1,35 @@
+server:
+  port: 8082
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+#cors:
+#  allowed-origins: "http://localhost:3000"
+#logging:
+#  level:
+#    root: INFO
+#    org:
+#      springframework: INFO
+#      mybatis: INFO
+#      hibernate: ERROR
+#    com:
+#      labg:
+#        sfa: INFO
+#      zaxxer:
+#        hikari: OFF
+#    javax:
+#      sql:
+#        DataSource: OFF
+#    jdbc:
+#      audit: OFF
+#      resultset: OFF
+#      resultsettable: OFF
+#      sqlonly: INFO
+#      sqltiming: OFF
+#      connection: OFF
