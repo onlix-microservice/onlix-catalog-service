@@ -12,6 +12,8 @@ public record ProductDetailResponse(
         String name,
         LocalDate releaseDate,
         LocalDateTime openDateTime,
+        int soldCount,
+        int price,
         String description
 ) {
     public static ProductDetailResponse from(Product product){
@@ -20,6 +22,8 @@ public record ProductDetailResponse(
                 .name(product.getName())
                 .releaseDate(product.getReleaseDate())
                 .openDateTime(product.getOpenDateTime())
+                .soldCount(product.getSoldCount())
+                .price(product.getPrice())
                 .description(product.getDescription())
                 .build();
     }
