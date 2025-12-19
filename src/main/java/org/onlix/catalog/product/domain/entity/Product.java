@@ -36,6 +36,12 @@ public class Product {
     @Column(name = "open_datetime", nullable = false)
     private LocalDateTime openDateTime;
 
+    @Column(name = "sold_count")
+    private int soldCount;
+
+    @Column(name = "price")
+    private int price;
+
     @Lob
     @Column(name = "description")
     private String description;
@@ -65,11 +71,15 @@ public class Product {
                    String name,
                    LocalDate releaseDate,
                    LocalDateTime openDateTime,
+                   int soldCount,
+                   int price,
                    String description) {
         this.brand = brand;
         this.name = name;
         this.releaseDate = releaseDate;
         this.openDateTime = openDateTime;
+        this.soldCount = soldCount;
+        this.price = price;
         this.description = description;
         this.displayStatus = ProductDisplayStatus.DRAFT;
     }
