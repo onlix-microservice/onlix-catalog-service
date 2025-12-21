@@ -1,9 +1,12 @@
 package org.onlix.catalog.product.service.query;
 
 import lombok.RequiredArgsConstructor;
+import org.onlix.catalog.core.url.StaticUrlResolver;
 import org.onlix.catalog.product.domain.entity.Product;
+import org.onlix.catalog.product.domain.repository.ProductImageRepository;
 import org.onlix.catalog.product.domain.repository.ProductRepository;
 import org.onlix.catalog.product.dto.ProductDetailResponse;
+import org.onlix.catalog.product.dto.ProductImageResponse;
 import org.onlix.catalog.product.dto.ProductResponse;
 import org.onlix.catalog.product.enums.ProductDisplayStatus;
 import org.onlix.catalog.product.exception.ProductCustomErrorCode;
@@ -19,11 +22,16 @@ import java.util.List;
 public class ProductQueryServiceImpl implements ProductQueryService {
 
     private final ProductRepository productRepository;
+    private final ProductImageRepository productImageRepository;
+    private final StaticUrlResolver staticUrlResolver;
 
     @Override
     public List<ProductResponse> getProducts() {
         return productRepository.findAllByDisplayStatus(ProductDisplayStatus.VISIBLE).stream()
-                .map(ProductResponse::from)
+                .map(product -> ProductResponse.of(
+                        product,
+                        staticUrlResolver.resolve(product.getThumbnailUrl())
+                ))
                 .toList();
     }
 
@@ -34,10 +42,16 @@ public class ProductQueryServiceImpl implements ProductQueryService {
                         new ProductCustomException(ProductCustomErrorCode.NOT_FOUND)
                 );
 
-        if (product.getDisplayStatus() != ProductDisplayStatus.VISIBLE) {
-            throw new ProductCustomException(ProductCustomErrorCode.NOT_VISIBLE);
-        }
+        String thumbnailUrl = staticUrlResolver.resolve(product.getThumbnailUrl());
+        List<ProductImageResponse> detailImages = productImageRepository
+                .findAllByProductIdOrderBySortOrderAsc(productId)
+                .stream()
+                .map(productImage -> ProductImageResponse.of(
+                        staticUrlResolver.resolve(productImage.getImageUrl()),
+                        productImage.getSortOrder())
+                )
+                .toList();
 
-        return ProductDetailResponse.from(product);
+        return ProductDetailResponse.of(product, thumbnailUrl, detailImages);
     }
 }

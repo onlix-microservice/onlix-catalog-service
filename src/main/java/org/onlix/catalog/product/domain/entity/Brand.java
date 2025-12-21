@@ -17,7 +17,7 @@ public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "brand_id")
-    private Long brandId;
+    private Long id;
 
     @Column(nullable = false, length = 100)
     private String name;
@@ -25,26 +25,21 @@ public class Brand {
     @Column(length = 500)
     private String description;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
-
     @Builder
     public Brand(String name,
                  String description) {
         this.name = name;
         this.description = description;
+    }
+
+    // 브랜드 생성
+    public static Brand create(
+            String name,
+            String description
+    ) {
+        return Brand.builder()
+                .name(name)
+                .description(description)
+                .build();
     }
 }

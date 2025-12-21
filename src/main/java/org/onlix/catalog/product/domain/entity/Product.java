@@ -21,7 +21,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private Long productId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "brand_id")
@@ -36,35 +36,25 @@ public class Product {
     @Column(name = "open_datetime", nullable = false)
     private LocalDateTime openDateTime;
 
-    @Column(name = "sold_count")
+    @Column(name = "sold_count", nullable = false)
     private int soldCount;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private int price;
+
+    @Column(name = "thumbnail_url", nullable = false, length = 500)
+    private String thumbnailUrl;
 
     @Lob
     @Column(name = "description")
     private String description;
 
+    @Column(name = "sold_out", nullable = false)
+    private boolean soldOut;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "display_status", nullable = false)
     private ProductDisplayStatus displayStatus;
-
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
 
     @Builder
     public Product(Brand brand,
@@ -73,6 +63,7 @@ public class Product {
                    LocalDateTime openDateTime,
                    int soldCount,
                    int price,
+                   String thumbnailUrl,
                    String description) {
         this.brand = brand;
         this.name = name;
@@ -80,7 +71,33 @@ public class Product {
         this.openDateTime = openDateTime;
         this.soldCount = soldCount;
         this.price = price;
+        this.thumbnailUrl = thumbnailUrl;
         this.description = description;
+        this.soldOut = false;
         this.displayStatus = ProductDisplayStatus.DRAFT;
+    }
+
+    // 상품 생성
+    public static Product create(
+            Brand brand,
+            String name,
+            LocalDate releaseDate,
+            LocalDateTime openDateTime,
+            int soldCount,
+            int price,
+            String thumbnailUrl,
+            String description
+    ) {
+        // TODO: VALIDATE 검증로직 추가
+        return Product.builder()
+                .brand(brand)
+                .name(name)
+                .releaseDate(releaseDate)
+                .openDateTime(openDateTime)
+                .soldCount(soldCount)
+                .price(price)
+                .thumbnailUrl(thumbnailUrl)
+                .description(description)
+                .build();
     }
 }

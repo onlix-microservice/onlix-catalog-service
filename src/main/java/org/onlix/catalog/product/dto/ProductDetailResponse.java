@@ -1,13 +1,15 @@
 package org.onlix.catalog.product.dto;
 
-import lombok.Builder;
 import org.onlix.catalog.product.domain.entity.Product;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Builder
 public record ProductDetailResponse(
+
+        String thumbnailUrl,
+        List<ProductImageResponse> detailImages,
         String brandName,
         String name,
         LocalDate releaseDate,
@@ -16,15 +18,21 @@ public record ProductDetailResponse(
         int price,
         String description
 ) {
-    public static ProductDetailResponse from(Product product){
-        return ProductDetailResponse.builder()
-                .brandName(product.getBrand().getName())
-                .name(product.getName())
-                .releaseDate(product.getReleaseDate())
-                .openDateTime(product.getOpenDateTime())
-                .soldCount(product.getSoldCount())
-                .price(product.getPrice())
-                .description(product.getDescription())
-                .build();
+    public static ProductDetailResponse of(
+            Product product,
+            String thumbnailUrl,
+            List<ProductImageResponse> detailImages
+    ) {
+        return new ProductDetailResponse(
+                thumbnailUrl,
+                detailImages,
+                product.getBrand().getName(),
+                product.getName(),
+                product.getReleaseDate(),
+                product.getOpenDateTime(),
+                product.getSoldCount(),
+                product.getPrice(),
+                product.getDescription()
+        );
     }
 }

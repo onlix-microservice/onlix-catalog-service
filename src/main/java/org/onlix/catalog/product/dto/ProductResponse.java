@@ -1,24 +1,25 @@
 package org.onlix.catalog.product.dto;
 
-import lombok.Builder;
 import org.onlix.catalog.product.domain.entity.Product;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Builder
 public record ProductResponse(
     Long productId,
     String name,
     LocalDateTime openDateTime,
+    String thumbnailUrl,
+    boolean soldOut,
     String displayStatus
 ) {
-    public static ProductResponse from(Product product){
-        return ProductResponse.builder()
-                .productId(product.getProductId())
-                .name(product.getName())
-                .openDateTime(product.getOpenDateTime())
-                .displayStatus(product.getDisplayStatus().name())
-                .build();
+    public static ProductResponse of(Product product, String thumbnailUrl) {
+        return new ProductResponse(
+                product.getId(),
+                product.getName(),
+                product.getOpenDateTime(),
+                thumbnailUrl,
+                product.isSoldOut(),
+                product.getDisplayStatus().name()
+        );
     }
 }
