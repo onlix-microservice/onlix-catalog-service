@@ -2,6 +2,8 @@ spring:
   config:
     activate:
       on-profile: prod
-
+  web:
+    resources:
+      add-mappings: false # 정적리소스 핸들링X
 #cors:
 #  allowed-origins: "https://onlix.com"

@@ -8,28 +8,11 @@ spring:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
+app:
+  static:
+    base-url: http://localhost:8082
+    img-path: file:/Users/gbugi/Static/images/
 
-#cors:
-#  allowed-origins: "http://localhost:3000"
-#logging:
-#  level:
-#    root: INFO
-#    org:
-#      springframework: INFO
-#      mybatis: INFO
-#      hibernate: ERROR
-#    com:
-#      labg:
-#        sfa: INFO
-#      zaxxer:
-#        hikari: OFF
-#    javax:
-#      sql:
-#        DataSource: OFF
-#    jdbc:
-#      audit: OFF
-#      resultset: OFF
-#      resultsettable: OFF
-#      sqlonly: INFO
-#      sqltiming: OFF
-#      connection: OFF
+logging:
+  level:
+    org.springframework.web.servlet.resource: TRACE

@@ -114,7 +114,7 @@ public class GlobalExceptionHandler {
      * [Exception] 요청한 자원이 없는 경우
      * - Http Status: 404(Not Found)
      * - Log Level : Warn
-     * - Log Output : [400] NOT_FOUND - 요청하신 자원을 찾을 수 없습니다.
+     * - Log Output : [404] NOT_FOUND - 요청하신 자원을 찾을 수 없습니다.
      *
      * @param ex NoHandlerFoundException
      * @return {@link ResponseEntity< ApiResponse >}
