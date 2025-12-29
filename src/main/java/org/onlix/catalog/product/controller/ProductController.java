@@ -3,6 +3,7 @@ package org.onlix.catalog.product.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.onlix.catalog.core.dto.ApiResponse;
 import org.onlix.catalog.product.dto.ProductDetailResponse;
 import org.onlix.catalog.product.dto.ProductResponse;
 import org.onlix.catalog.product.service.query.ProductQueryService;
@@ -26,8 +27,8 @@ public class ProductController {
             description = "노출 상태가 'VISIBLE'인 상품 목록을 조회합니다."
     )
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> getProducts() {
-        return ResponseEntity.ok(productService.getProducts());
+    public ResponseEntity<ApiResponse<List<ProductResponse>>> getProducts() {
+        return ResponseEntity.ok(ApiResponse.success(productService.getProducts()));
     }
 
     @Operation(
@@ -35,7 +36,7 @@ public class ProductController {
             description = "상품의 상세정보를 조회합니다."
     )
     @GetMapping("/{productId}")
-    public ResponseEntity<ProductDetailResponse> getProductDetail(@PathVariable Long productId) {
-        return ResponseEntity.ok(productService.getProductDetail(productId));
+    public ResponseEntity<ApiResponse<ProductDetailResponse>> getProductDetail(@PathVariable Long productId) {
+        return ResponseEntity.ok(ApiResponse.success(productService.getProductDetail(productId)));
     }
 }
